@@ -34,3 +34,4 @@ node_modules/
 npm-debug.log
 .vscode/
 *.iml
+android/app/my-release-key.keystore
