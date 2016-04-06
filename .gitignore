@@ -30,7 +30,11 @@ local.properties
 
 # node.js
 #
-node_modules/
+node_modules/react-native/
+node_modules/react/
+node_modules/.bin/
 npm-debug.log
 .vscode/
 *.iml
+android/app/my-release-key.keystore
+

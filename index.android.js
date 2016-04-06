@@ -7,87 +7,42 @@ import React, {
     AppRegistry,
     Component,
     StyleSheet,
-    Text,
+    Navigator,
     View,
-    ListView,
-    Image,
-} from 'react-native';
+} from 'react-native'
 
-var CQ5_URL = "https://www.horizon.tv/content/unified/NL/eng/android/settings.js";
-var ReactProject = React.createClass({
-    componentDidMount() {
-        console.log("Start load CQ5");
-        this.loadCQ5();
-    },
-    loadCQ5() {
-        fetch(CQ5_URL)
-            .then((response) => {
-                console.log(response)
-            })
-            //.catch((error) => console.log(error))
-            .done();
-    },
-    getInitialState() {
-        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        var data = [{ key: 'row 1', image: "http://icons.iconarchive.com/icons/designbolts/free-multimedia/1024/iMac-icon.png" }, { key: 'row 2', image: "http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png" }];
-        return {
-            dataSource: ds.cloneWithRows(data),
-        };
-    },
+var LoginPage = require('./LoginPage')
+var HomePage = require('./HomePage')
+
+class ReactProject extends Component {
+
     render() {
-
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome to React Native!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started, edit index.android.js
-                </Text>
-                <Text style={styles.instructions}>
-                    Shake or press menu button for dev menu
-                </Text>
-                <ListView
-                    dataSource={this.state["dataSource"]}
-                    renderRow={this.renderRow}
-                    />
-            </View>
+            <Navigator
+                initialRoute={{ scene: 'LoginPage' }}
+                renderScene={this.renderScene.bind(this) }
+                configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottomAndroid}
+                />
         );
-    },
-
-    renderRow(rowData, sectionID, rowID, highlightRow) {
-        return (
-            <View>
-                <Image
-                    style={styles.image}
-                    source={{ uri: rowData.image }}/>
-                <Text>{rowData.key}</Text>
-            </View>
-        );
-    },
-});
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    image: {
-        width: 64,
-        height: 64,
     }
-});
+
+    renderScene(route, nav) {
+        var scene = route.scene
+        switch (scene) {
+            case 'LoginPage': {
+                console.log("LoginPage nav render");
+                return <LoginPage navigator={nav}/>
+            }
+            case 'HomePage': {
+                console.log("HomePage nav render");
+                return <HomePage navigator={nav}/>
+            }
+
+
+        }
+        return null;
+    }
+}
+
 
 AppRegistry.registerComponent('ReactProject', () => ReactProject);
